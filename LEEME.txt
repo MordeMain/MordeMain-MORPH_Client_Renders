@@ -1,0 +1,15 @@
+MORPH RENDERS — PUBLICAR EN GITHUB PAGES
+
+1. En github.com, crea un repositorio público nuevo (p. ej. morph-renders).
+2. Sube TODO el contenido de esta carpeta a la raíz del repositorio:
+   index.html, support.js, xlsx-export.js y la carpeta img/.
+   (Arrastrar y soltar en "Add file > Upload files" funciona; máximo 25 MB por archivo en la web.)
+3. Settings > Pages > Source: "Deploy from a branch" > Branch: main, carpeta / (root) > Save.
+4. En uno o dos minutos la web estará en:
+   https://TU-USUARIO.github.io/morph-renders/
+
+Para actualizar: sustituye index.html (o las imágenes) en el repositorio; Pages se regenera solo.
+
+Notas
+- Los proyectos guardados se almacenan en el navegador de cada persona; no se comparten entre usuarios.
+- El repositorio público es visible para cualquiera con el enlace o que lo busque.
