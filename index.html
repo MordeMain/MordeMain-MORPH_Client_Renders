@@ -551,7 +551,7 @@
 
             <sc-for list="{{ donutSegs }}" as="sg" hint-placeholder-count="3">
 
-              <div onMouseEnter="{{ sg.enter }}" onMouseLeave="{{ sg.leave }}" style="display:flex;flex-direction:column;gap:10px;padding:13px 0;border-bottom:1px solid #1C2123;opacity:{{ sg.rowOp }};transition:opacity .35s;cursor:default">
+              <div onClick="{{ sg.pick }}" onMouseEnter="{{ sg.enter }}" onMouseLeave="{{ sg.leave }}" style="cursor:pointer;display:flex;flex-direction:column;gap:10px;padding:13px 0;border-bottom:1px solid #1C2123;opacity:{{ sg.rowOp }};transition:opacity .35s;cursor:default">
 
                 <div style="display:flex;align-items:center;gap:12px">
 
@@ -585,6 +585,36 @@
 
                   </div>
 
+                  <div style="display:flex;flex-direction:column;gap:6px;margin:6px 0 2px 20px;padding:12px 0 0;border-top:1px solid #1C2123">
+
+                    <div style="display:flex;justify-content:space-between;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:0.18em;text-transform:uppercase;color:#7C8285">
+
+                      <span>Entregado</span>
+
+                      <span>{{ sg.itemsTotal }} uds.</span>
+
+                    </div>
+
+                    <sc-if value="{{ sg.noItems }}">
+
+                      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7C8285">Sin entregables en esta fase</span>
+
+                    </sc-if>
+
+                    <sc-for list="{{ sg.items }}" as="it">
+
+                      <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:baseline">
+
+                        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;color:#C2C8CA;min-width:0;text-wrap:pretty">{{ it.name }}</span>
+
+                        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;color:#9BA1A4">×{{ it.qty }}</span>
+
+                      </div>
+
+                    </sc-for>
+
+                  </div>
+
                 </sc-if>
 
               </div>
@@ -603,7 +633,7 @@
 
             <sc-for list="{{ donutSegs }}" as="sg" hint-placeholder-count="3">
 
-              <path d="{{ sg.d }}" fill="{{ sg.color }}" onMouseEnter="{{ sg.enter }}" onMouseLeave="{{ sg.leave }}" style="transform-origin:100px 100px;transform:{{ sg.tf }};opacity:{{ sg.op }};transition:transform .4s cubic-bezier(.16,1,.3,1),opacity .35s;cursor:default"></path>
+              <path d="{{ sg.d }}" fill="{{ sg.color }}" onClick="{{ sg.pick }}" onMouseEnter="{{ sg.enter }}" onMouseLeave="{{ sg.leave }}" style="transform-origin:100px 100px;transform:{{ sg.tf }};opacity:{{ sg.op }};transition:transform .4s cubic-bezier(.16,1,.3,1),opacity .35s;cursor:default"></path>
 
             </sc-for>
 
@@ -878,6 +908,12 @@
 
           </sc-if>
 
+          <sc-if value="{{ pl.hasBalance }}">
+
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.1em;color:{{ pl.balanceColor }};white-space:nowrap">{{ pl.balanceLabel }}</span>
+
+          </sc-if>
+
         </span>
 
       </div>
@@ -964,7 +1000,7 @@
 
       <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
 
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:#7C8285">Sin consumir · proyecto anterior</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:#7C8285">Balance · proyecto anterior</span>
 
         <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.08em;color:#7C8285">{{ carryFrom }}</span>
 
@@ -972,7 +1008,7 @@
 
       <span style="display:flex;align-items:baseline;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;flex-shrink:0">
 
-        <span style="color:#9EC48F">{{ carryHours }} h</span>
+        <span style="color:{{ carryColor }}">{{ carryLabel }}</span>
 
         <span style="color:#7C8285">{{ carryDays }} días</span>
 
@@ -992,15 +1028,15 @@
 
       <span style="display:flex;align-items:baseline;gap:5px">
 
-        <input id="entrega-d" type="text" inputmode="numeric" maxLength="2" name="morph-ent-d" autoComplete="off" spellCheck="false" data-form-type="other" value="{{ entD }}" onChange="{{ onEntD }}" onKeyDown="{{ onEntKey }}" placeholder="dd" style="width:26px;background:transparent;border:0;border-bottom:1px solid #2F3639;outline:none;color:#ECEFEF;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;text-align:center;padding:0 0 3px" />
+        <input id="entrega-d" type="text" inputmode="numeric" maxLength="2" name="morph-ent-d" autoComplete="off" spellCheck="false" data-form-type="other" value="{{ entD }}" onChange="{{ onEntD }}" onKeyDown="{{ onEntKey }}" placeholder="dd" style="width:26px;background:transparent;border:0;border-bottom:1px solid {{ entLine }};transition:border-color .3s;outline:none;color:#ECEFEF;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;text-align:center;padding:0 0 3px" />
 
         <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7C8285">/</span>
 
-        <input id="entrega-m" type="text" inputmode="numeric" maxLength="2" name="morph-ent-m" autoComplete="off" spellCheck="false" data-form-type="other" value="{{ entM }}" onChange="{{ onEntM }}" onKeyDown="{{ onEntKey }}" placeholder="mm" style="width:26px;background:transparent;border:0;border-bottom:1px solid #2F3639;outline:none;color:#ECEFEF;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;text-align:center;padding:0 0 3px" />
+        <input id="entrega-m" type="text" inputmode="numeric" maxLength="2" name="morph-ent-m" autoComplete="off" spellCheck="false" data-form-type="other" value="{{ entM }}" onChange="{{ onEntM }}" onKeyDown="{{ onEntKey }}" placeholder="mm" style="width:26px;background:transparent;border:0;border-bottom:1px solid {{ entLine }};transition:border-color .3s;outline:none;color:#ECEFEF;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;text-align:center;padding:0 0 3px" />
 
         <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7C8285">/</span>
 
-        <input id="entrega-y" type="text" inputmode="numeric" maxLength="4" name="morph-ent-y" autoComplete="off" spellCheck="false" data-form-type="other" value="{{ entY }}" onChange="{{ onEntY }}" onKeyDown="{{ onEntKey }}" placeholder="aaaa" style="width:42px;background:transparent;border:0;border-bottom:1px solid #2F3639;outline:none;color:#ECEFEF;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;text-align:center;padding:0 0 3px" />
+        <input id="entrega-y" type="text" inputmode="numeric" maxLength="4" name="morph-ent-y" autoComplete="off" spellCheck="false" data-form-type="other" value="{{ entY }}" onChange="{{ onEntY }}" onKeyDown="{{ onEntKey }}" placeholder="aaaa" style="width:42px;background:transparent;border:0;border-bottom:1px solid {{ entLine }};transition:border-color .3s;outline:none;color:#ECEFEF;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;text-align:center;padding:0 0 3px" />
 
       </span>
 
@@ -1012,11 +1048,17 @@
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:22px 0 0">
 
-    <div onClick="{{ guardarFase }}" style="text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;background:transparent;color:{{ saveFg }};border:1px solid {{ saveLine }};padding:16px 12px;cursor:pointer;transition:transform .4s cubic-bezier(.16,1,.3,1),color .4s,border-color .4s" style-hover="transform:translateY(-2px)">{{ saveLabel }}</div>
+    <div onClick="{{ guardarFase }}" style="text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;background:transparent;color:{{ saveFg }};border:1px solid {{ saveLine }};padding:16px 12px;cursor:pointer;opacity:{{ actOp }};transition:transform .4s cubic-bezier(.16,1,.3,1),color .4s,border-color .4s,opacity .3s" style-hover="transform:translateY(-2px)">{{ saveLabel }}</div>
 
-    <div onClick="{{ finalizarFase }}" style="text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;background:{{ finBg }};color:{{ finFg }};border:1px solid {{ finBg }};padding:16px 12px;cursor:pointer;transition:transform .4s cubic-bezier(.16,1,.3,1),background .4s,color .4s" style-hover="transform:translateY(-2px)">{{ finLabel }}</div>
+    <div onClick="{{ finalizarFase }}" style="text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;background:{{ finBg }};color:{{ finFg }};border:1px solid {{ finBg }};padding:16px 12px;cursor:pointer;opacity:{{ actOp }};transition:transform .4s cubic-bezier(.16,1,.3,1),background .4s,color .4s,opacity .3s" style-hover="transform:translateY(-2px)">{{ finLabel }}</div>
 
   </div>
+
+  <sc-if value="{{ entHint }}" hint-placeholder-val="{{ false }}">
+
+    <div style="margin:10px 0 0;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;color:#E07A6B">Introduce la fecha de entrega</div>
+
+  </sc-if>
 
   <div style="margin:12px 0 0;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#7C8285;line-height:1.7;text-align:center">Cierra la fase actual y abre la siguiente. La escala y el contrato se mantienen.</div>
 
@@ -2613,6 +2655,11 @@ const HOURS_BUDGET_PER_PHASE = {
 
 // Jornada de referencia para expresar horas en días (8 h, lunes a viernes)
 const WORKDAY_HOURS = 8;
+
+// Horario laboral usado para comparar el cierre de fase con la fecha de entrega
+// (lunes a viernes, de WORK_START a WORK_END). La entrega vence al final de la jornada.
+const WORK_START = 9;
+const WORK_END = 17;
 
 
 
@@ -4767,6 +4814,8 @@ class Component extends DCLogic {
 
     const st = this.state;
 
+    if (!this.entDate((st.entrega || {})[st.selectedPhase])) { this.nudgeEntrega(); return; }
+
     this.persist(st.sel || {}, st.arm || {});
 
     this.upsertProject();
@@ -4782,6 +4831,8 @@ class Component extends DCLogic {
 
 
   finalizarFase() {
+
+    if (!this.entDate((this.state.entrega || {})[this.state.selectedPhase])) { this.nudgeEntrega(); return; }
 
     if (!this.state.confirmFase) {
 
@@ -4915,7 +4966,8 @@ class Component extends DCLogic {
 
     let acc = 0;
 
-    const on = st.hoverSeg;
+    // Hover manda; si no hay hover, se mantiene la fase fijada con clic
+    const on = st.hoverSeg != null ? st.hoverSeg : st.pinSeg;
 
     const segs = hist.map((h, i) => {
 
@@ -4948,7 +5000,9 @@ class Component extends DCLogic {
 
         ['Entrega prevista', h.entrega || '—'],
 
-        ['Finalizada', h.doneAt || h.done || '—']
+        ['Finalizada', h.doneAt || h.done || '—'],
+
+        ['Balance', typeof h.balance === 'number' ? this.balanceLabel(h.balance) : '—']
 
       ].map(x => ({ k: x[0], v: x[1] }));
 
@@ -4978,6 +5032,11 @@ class Component extends DCLogic {
 
         dotScale: hov ? 'scale(1.6)' : 'scale(1)',
 
+        // Entregables de la fase: «Nombre ×n» → { name, qty }
+        items: (h.nuevas || []).map(s => { const m = String(s).match(/^(.*?)\s×(\d+)$/); return m ? { name: m[1], qty: +m[2] } : { name: String(s), qty: 1 }; }),
+        itemsTotal: (h.nuevas || []).reduce((a, s) => { const m = String(s).match(/\s×(\d+)$/); return a + (m ? +m[1] : 1); }, 0),
+        noItems: !(h.nuevas || []).length,
+        pick: () => this.setState(s => ({ pinSeg: s.pinSeg === i ? null : i })),
         enter: () => this.setState({ hoverSeg: i }),
 
         leave: () => this.setState({ hoverSeg: null })
@@ -5007,15 +5066,54 @@ class Component extends DCLogic {
 
     if (!prev) return null;
 
-    const free = (prev.history || []).reduce((a, h) =>
-
-      a + Math.max(0, (HOURS_BUDGET_PER_PHASE[h.phase] || 0) - (h.hours || 0)), 0);
+    // Suma de los balances de cada fase (cierre real frente a fecha de entrega)
+    const free = Math.round((prev.history || []).reduce((a, h) => a + (typeof h.balance === 'number' ? h.balance : 0), 0) * 2) / 2;
 
     return { code: prev.code + ' ' + prev.name, hours: free, at: prev.finishedAt || '' };
 
   }
 
 
+
+  // Fecha de entrega completa y válida → Date al cierre de la jornada; si no, null
+  entDate(p) {
+    if (!p || typeof p !== 'object') return null;
+    const d = parseInt(p.d, 10), m = parseInt(p.m, 10), y = parseInt(p.y, 10);
+    if (!(String(p.y || '').length === 4 && d >= 1 && m >= 1 && m <= 12)) return null;
+    const dt = new Date(y, m - 1, d, WORK_END, 0, 0);
+    return (dt.getMonth() === m - 1 && dt.getDate() === d) ? dt : null;
+  }
+
+  // Horas laborables entre dos instantes (positivo si b es posterior a a)
+  workHoursBetween(a, b) {
+    const sign = b >= a ? 1 : -1;
+    let s = new Date(Math.min(a, b)), e = new Date(Math.max(a, b)), ms = 0;
+    const day = new Date(s.getFullYear(), s.getMonth(), s.getDate());
+    while (day <= e) {
+      const wd = day.getDay();
+      if (wd !== 0 && wd !== 6) {
+        const o = new Date(day.getFullYear(), day.getMonth(), day.getDate(), WORK_START);
+        const c = new Date(day.getFullYear(), day.getMonth(), day.getDate(), WORK_END);
+        const from = Math.max(o, s), to = Math.min(c, e);
+        if (to > from) ms += to - from;
+      }
+      day.setDate(day.getDate() + 1);
+    }
+    return sign * Math.round(ms / 36e5 * 2) / 2;
+  }
+
+  // Etiqueta de balance: +n h restantes / n h pasadas
+  balanceLabel(b) {
+    if (b == null) return '';
+    return b >= 0 ? b + ' h restantes' : Math.abs(b) + ' h pasadas';
+  }
+
+  // Avisa de que falta la fecha de entrega
+  nudgeEntrega() {
+    this.setState({ entNudge: true });
+    clearTimeout(this._entNudgeT);
+    this._entNudgeT = setTimeout(() => this.setState({ entNudge: false }), 1400);
+  }
 
   // dd/mm/aaaa · hh:mm
   nowStamp() {
@@ -5071,6 +5169,9 @@ class Component extends DCLogic {
       viz: st.selectedViz,
 
       entrega: this.entStr((st.entrega || {})[st.selectedPhase]),
+
+      // Horas laborables entre el cierre real y la entrega prevista (+ restantes / − pasadas)
+      balance: (() => { const dl = this.entDate((st.entrega || {})[st.selectedPhase]); return dl ? this.workHoursBetween(new Date(), dl) : null; })(),
 
       done: this.today(),
 
@@ -6913,6 +7014,12 @@ class Component extends DCLogic {
 
       entregaPrev: h.entrega || '—',
 
+      hasBalance: typeof h.balance === 'number',
+
+      balanceLabel: this.balanceLabel(h.balance),
+
+      balanceColor: (h.balance || 0) >= 0 ? '#9EC48F' : '#E07A6B',
+
       bg: '#0E1214',
 
       line: '#22272A',
@@ -6994,6 +7101,12 @@ class Component extends DCLogic {
       hasDone: false,
 
       entregaPrev: '',
+
+      hasBalance: false,
+
+      balanceLabel: '',
+
+      balanceColor: '#9EC48F',
 
       tag: 'Fase actual',
 
@@ -7238,6 +7351,14 @@ class Component extends DCLogic {
 
       saveLabel: st.faseSaved ? 'Guardado ✓' : 'Guardar',
 
+      entOk: !!this.entDate((st.entrega || {})[st.selectedPhase]),
+
+      entLine: st.entNudge ? '#E07A6B' : '#2F3639',
+
+      entHint: st.entNudge,
+
+      actOp: this.entDate((st.entrega || {})[st.selectedPhase]) ? 1 : 0.4,
+
       saveFg: st.faseSaved ? '#9EC48F' : '#ECEFEF',
 
       saveLine: st.faseSaved ? '#9EC48F' : '#2F3639',
@@ -7369,7 +7490,11 @@ class Component extends DCLogic {
 
       carryHours: carry ? carry.hours : 0,
 
-      carryDays: carry ? (Math.round(carry.hours / WORKDAY_HOURS * 10) / 10) : 0,
+      carryLabel: carry ? this.balanceLabel(carry.hours) : '',
+
+      carryColor: carry && carry.hours < 0 ? '#E07A6B' : '#9EC48F',
+
+      carryDays: carry ? (Math.round(Math.abs(carry.hours) / WORKDAY_HOURS * 10) / 10) : 0,
 
       carryFrom: carry ? carry.code : '',
 
