@@ -1301,27 +1301,27 @@
 
       <sc-for list="{{ tiles }}" as="t" hint-placeholder-count="4">
 
-        <div data-tile-slot="{{ t.idx }}" style="position:relative;aspect-ratio:{{ t.ar }};height:{{ t.h }};z-index:{{ t.z }};animation:{{ t.popAnim }};transition:height .8s cubic-bezier(.16,1,.3,1);will-change:height,transform,opacity">
+        <div data-tile-slot="{{ t.idx }}" style="position:relative;aspect-ratio:{{ t.ar }};height:{{ t.h }};z-index:{{ t.z }};animation:{{ t.popAnim }};transition:height .8s cubic-bezier(.16,1,.3,1)">
 
-          <div onClick="{{ t.go }}" style="position:absolute;inset:0;transform-origin:{{ t.origin }};transform:{{ t.tf }};border-radius:{{ t.radius }};overflow:hidden;border:1px solid {{ t.line }};background:#0D1112;cursor:pointer;transition:transform .55s cubic-bezier(.22,1,.36,1),border-color .4s;will-change:transform;backface-visibility:hidden;contain:paint">
+          <div onClick="{{ t.go }}" style="position:absolute;inset:0;transform-origin:{{ t.origin }};transform:{{ t.tf }};border-radius:{{ t.radius }};overflow:hidden;border:1px solid {{ t.line }};background:#0D1112;cursor:pointer;transition:transform .42s cubic-bezier(.16,1,.3,1),border-color .4s,border-radius .42s cubic-bezier(.16,1,.3,1);will-change:transform;backface-visibility:hidden">
 
             <sc-if value="{{ t.hasImg }}">
 
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="{{ t.thumb }}" alt="{{ t.name }}" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ t.objPos }};opacity:1;transition:opacity .45s;pointer-events:none;transform:translateZ(0);backface-visibility:hidden" />
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="{{ t.img }}" alt="{{ t.name }}" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ t.objPos }};opacity:1;transition:opacity .45s;pointer-events:none" />
 
             </sc-if>
 
             <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(11,14,15,0) 45%, rgba(11,14,15,0.7) 100%);pointer-events:none"></div>
 
-            <span style="position:absolute;top:9px;left:12px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.16em;color:#C2C8CA;transform:{{ t.labelTf }};transform-origin:left top;transition:transform .55s cubic-bezier(.22,1,.36,1)">{{ t.n }}</span>
+            <span style="position:absolute;top:9px;left:12px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.16em;color:#C2C8CA;transform:{{ t.labelTf }};transform-origin:left top;transition:transform .42s cubic-bezier(.16,1,.3,1)">{{ t.n }}</span>
 
             <span style="position:absolute;top:11px;right:12px;width:6px;height:6px;border-radius:50%;background:#ECEFEF;opacity:{{ t.pickOp }};transition:opacity .4s"></span>
 
-            <div style="position:absolute;left:12px;right:12px;bottom:9px;display:{{ vp.tileMeta }};flex-direction:column;gap:3px;transform:{{ t.labelTf }};transform-origin:left bottom;transition:transform .55s cubic-bezier(.22,1,.36,1);will-change:transform">
+            <div style="position:absolute;left:12px;right:12px;bottom:9px;display:{{ vp.tileMeta }};flex-direction:column;gap:3px;transform:{{ t.labelTf }};transform-origin:left bottom;transition:transform .42s cubic-bezier(.16,1,.3,1)">
 
               <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:#C2C8CA;opacity:{{ t.kickerOp }};transition:opacity .4s">{{ t.kicker }}</span>
 
-              <span style="font-size:{{ t.nameSize }};font-weight:300;letter-spacing:-0.02em;color:#ECEFEF;line-height:1.15">{{ t.name }}</span>
+              <span style="font-size:{{ t.nameSize }};font-weight:300;letter-spacing:-0.02em;color:#ECEFEF;line-height:1.15;transition:font-size .45s cubic-bezier(.16,1,.3,1)">{{ t.name }}</span>
 
             </div>
 
@@ -2100,11 +2100,6 @@ const secViewName = (i, v) => { const x = secView(i, v); return x ? x.name : '';
 const EXISTING_PROJECTS = [];
 
 const PROJECTS_KEY = 'morph_projects_v1';
-
-// Copias ligeras (1400 px) sólo para la retícula de portada: se redimensionan
-// en cada fotograma de la animación, así que el original de 5000 px la entrecorta.
-// Las secciones siguen usando el archivo original en ./img/.
-const gridThumb = src => (src && src.indexOf('./img/') === 0 && /\.jpe?g$/i.test(src)) ? src.replace('./img/', './img/grid/') : src;
 
 // Aviso informativo de almacenamiento local (una sola vez)
 const NOTICE_KEY = 'morph_storage_notice_v1';
@@ -3833,7 +3828,7 @@ class Component extends DCLogic {
 
     const urls = this.extraIdx()
 
-      .map(i => { const v = (SECTIONS[i].views || [])[0]; return v && gridThumb(v.img); })
+      .map(i => { const v = (SECTIONS[i].views || [])[0]; return v && v.img; })
 
       .filter(Boolean);
 
@@ -3881,7 +3876,7 @@ class Component extends DCLogic {
 
         clearTimeout(this._adiImgTimer);
 
-        this._adiImgTimer = setTimeout(() => this.setState({ adiReady: true }), 60);
+        this._adiImgTimer = setTimeout(() => this.setState({ adiReady: true }), this.vpKey() === 'pc' ? 900 : 120);
 
       } else {
 
@@ -7252,7 +7247,7 @@ class Component extends DCLogic {
 
       // portada
 
-      tiles: (mobileView ? tiles.map(t => Object.assign({}, t, { ar: 'auto', h: '100%' })) : tiles).map(t => Object.assign({}, t, { thumb: gridThumb(t.img) })),
+      tiles: mobileView ? tiles.map(t => Object.assign({}, t, { ar: 'auto', h: '100%' })) : tiles,
 
       gridW: mobileView ? '100%' : (st.gridW || '38vw'),
 
