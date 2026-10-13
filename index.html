@@ -54,7 +54,7 @@
 
   input, select, button { font-family:inherit; }
 
-  input::placeholder { color:#4E5558; }
+  input::placeholder { color:#7C8285; }
   aside { scrollbar-width: none; -ms-overflow-style: none; }
   aside::-webkit-scrollbar { width: 0; height: 0; display: none; }
 
@@ -427,7 +427,7 @@
 
 
 
-<div id="custom-cursor" style="position:fixed;top:0;left:0;visibility:{{ cursorVis }};width:{{ curSize }};height:{{ curSize }};border-radius:50%;background:{{ curBg }};box-shadow:{{ curShadow }};pointer-events:none;z-index:9999;will-change:transform,filter;display:flex;align-items:center;justify-content:center;transform:translate3d(-100px,-100px,0) translate(-50%,-50%);opacity:{{ cursorOp }};transition:opacity .4s cubic-bezier(.16,1,.3,1),width .35s cubic-bezier(.16,1,.3,1),height .35s cubic-bezier(.16,1,.3,1),background .3s">
+<div id="custom-cursor" style="position:fixed;top:0;left:0;visibility:{{ cursorVis }};width:{{ curSize }};height:{{ curSize }};border-radius:50%;background:{{ curBg }};box-shadow:{{ curShadow }};pointer-events:none;z-index:9999;will-change:transform,filter;display:flex;align-items:center;justify-content:center;transform:translate3d(-100px,-100px,0) translate(-50%,-50%);opacity:{{ cursorOp }};transition:background .35s,box-shadow .35s,opacity .4s cubic-bezier(.16,1,.3,1),width .35s cubic-bezier(.16,1,.3,1),height .35s cubic-bezier(.16,1,.3,1),background .3s">
 
   <span style="display:flex;align-items:center;justify-content:center;opacity:{{ curArrowOp }};transform:{{ curArrowRot }};transition:opacity .25s,transform .35s cubic-bezier(.16,1,.3,1);filter:drop-shadow(0 0 6px rgba(255,255,255,.9)) drop-shadow(0 0 18px rgba(255,255,255,.45))">
 
@@ -449,7 +449,7 @@
 
   </div>
 
-  <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#5F6669">{{ loadPct }} %</div>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#7C8285">{{ loadPct }} %</div>
 
 </div>
 
@@ -467,7 +467,7 @@
 
       <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.24em;text-transform:uppercase;color:#7C8285">MORPH — {{ stepKicker }}</div>
 
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#4E5558">{{ stepIndexLabel }}</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#7C8285">{{ stepIndexLabel }}</div>
 
     </div>
 
@@ -505,7 +505,7 @@
 
             <div style="display:flex;align-items:baseline;gap:10px;border-bottom:1px solid #22272A;padding:0 0 12px;margin:0 0 4px">
 
-              <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.18em;color:#5F6669">{{ tg.n }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.18em;color:#7C8285">{{ tg.n }}</span>
 
               <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#9BA1A4">{{ tg.label }}</span>
 
@@ -529,29 +529,99 @@
 
     <sc-if value="{{ isDoneStep }}">
 
-      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:30px;padding:20px 0 10px">
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(32px,5vw,80px);align-items:center;padding:6px 0 10px">
 
-        <div style="width:clamp(120px,13vw,176px);height:clamp(120px,13vw,176px);border-radius:50%;background:#FFFFFF;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(255,255,255,.25), 0 0 60px rgba(255,255,255,.22)">
+        <div style="display:flex;flex-direction:column;gap:22px;min-width:0">
 
-          <svg style="pointer-events:none" width="42%" height="42%" viewBox="0 0 40 40" fill="none" stroke="#090B0C" stroke-width="2.6" stroke-linecap="square"><path d="M7 21l8 8L33 11"></path></svg>
+          <div style="display:flex;flex-direction:column;gap:8px">
+
+            <div style="font-family:'Futura','Futura PT','Jost','Century Gothic',Archivo,sans-serif;font-size:clamp(26px,3vw,40px);font-weight:400;letter-spacing:0.01em;color:#ECEFEF;line-height:1.1">{{ doneProject }}</div>
+
+            <div style="display:flex;gap:18px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#7C8285">
+
+              <span>Finalizado {{ doneAt }}</span>
+
+              <span>{{ donutTotal }} h totales</span>
+
+            </div>
+
+          </div>
+
+          <div style="display:flex;flex-direction:column;border-top:1px solid #1C2123">
+
+            <sc-for list="{{ donutSegs }}" as="sg" hint-placeholder-count="3">
+
+              <div onMouseEnter="{{ sg.enter }}" onMouseLeave="{{ sg.leave }}" style="display:flex;flex-direction:column;gap:10px;padding:13px 0;border-bottom:1px solid #1C2123;opacity:{{ sg.rowOp }};transition:opacity .35s;cursor:default">
+
+                <div style="display:flex;align-items:center;gap:12px">
+
+                  <span style="width:8px;height:8px;border-radius:50%;background:{{ sg.color }};flex-shrink:0;transform:{{ sg.dotScale }};transition:transform .35s cubic-bezier(.16,1,.3,1)"></span>
+
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#7C8285">{{ sg.n }}</span>
+
+                  <span style="flex:1;min-width:0;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#ECEFEF">{{ sg.label }}</span>
+
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;color:#9BA1A4">{{ sg.hours }} h</span>
+
+                  <span style="width:42px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#7C8285">{{ sg.pct }}</span>
+
+                </div>
+
+                <sc-if value="{{ sg.open }}">
+
+                  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 22px;padding:2px 0 4px 20px">
+
+                    <sc-for list="{{ sg.details }}" as="dt">
+
+                      <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+
+                        <span style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:0.18em;text-transform:uppercase;color:#7C8285">{{ dt.k }}</span>
+
+                        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;color:#C2C8CA">{{ dt.v }}</span>
+
+                      </div>
+
+                    </sc-for>
+
+                  </div>
+
+                </sc-if>
+
+              </div>
+
+            </sc-for>
+
+          </div>
+
+          <span onClick="{{ goHome }}" style="align-self:flex-start;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;background:#E6E9E9;color:#090B0C;padding:14px 22px;cursor:pointer">Volver al inicio</span>
 
         </div>
 
-        <div>
+        <div style="position:relative;width:clamp(240px,28vw,400px);aspect-ratio:1">
 
-          <div style="font-family:'Futura','Futura PT','Jost','Century Gothic',Archivo,sans-serif;font-size:clamp(30px,4.2vw,54px);font-weight:400;letter-spacing:0.01em;color:#ECEFEF;line-height:1.15">Projecto Finalizado!</div>
+          <svg viewBox="-8 -8 216 216" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible">
 
-          <div style="font-family:'Futura','Futura PT','Jost','Century Gothic',Archivo,sans-serif;font-size:clamp(22px,3vw,38px);font-weight:300;letter-spacing:0.01em;color:#9BA1A4;margin-top:8px">Enhora Buena!</div>
+            <sc-for list="{{ donutSegs }}" as="sg" hint-placeholder-count="3">
+
+              <path d="{{ sg.d }}" fill="{{ sg.color }}" onMouseEnter="{{ sg.enter }}" onMouseLeave="{{ sg.leave }}" style="transform-origin:100px 100px;transform:{{ sg.tf }};opacity:{{ sg.op }};transition:transform .4s cubic-bezier(.16,1,.3,1),opacity .35s;cursor:default"></path>
+
+            </sc-for>
+
+          </svg>
+
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;pointer-events:none">
+
+            <span style="font-family:'Futura','Futura PT','Jost','Century Gothic',Archivo,sans-serif;font-size:clamp(30px,3.4vw,48px);font-weight:300;color:#ECEFEF;line-height:1">{{ donutCenterVal }}</span>
+
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#7C8285">{{ donutCenterLabel }}</span>
+
+          </div>
 
         </div>
-
-        <span onClick="{{ goHome }}" style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;background:#E6E9E9;color:#090B0C;padding:14px 22px;cursor:pointer;transition:transform .4s cubic-bezier(.16,1,.3,1)" style-hover="transform:translateY(-2px)">Volver al inicio</span>
 
       </div>
 
     </sc-if>
-
-
 
     <sc-if value="{{ isCodeStep }}">
 
@@ -660,7 +730,7 @@
 
         <sc-if value="{{ noResults }}">
 
-          <div style="border:1px solid #1E2426;padding:34px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:#5F6669">Sin resultados para “{{ query }}”</div>
+          <div style="border:1px solid #1E2426;padding:34px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:#7C8285">Sin resultados para “{{ query }}”</div>
 
         </sc-if>
 
@@ -720,7 +790,7 @@
 
       <span onClick="{{ stepBack }}" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#7C8285;border:1px solid #22272A;padding:11px 15px;cursor:pointer;opacity:{{ backStepOp }};pointer-events:{{ backStepPointer }};transition:all .4s" style-hover="color:#ECEFEF;border-color:#3A4144">← Atrás</span>
 
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:#4E5558">{{ stepHint }}</span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:#7C8285">{{ stepHint }}</span>
 
     </div>
 
@@ -758,7 +828,7 @@
 
 
 
-<aside style="position:fixed;top:{{ vp.fixTop }};right:{{ vp.fixInset }};bottom:{{ vp.fixTop }};width:{{ vp.panelW }};min-width:{{ vp.panelMinW }};max-width:100vw;z-index:89;background:#0C1011;border-left:1px solid #22272A;box-shadow:-30px 0 70px rgba(0,0,0,.55);transform:translateX({{ panelX }});transition:transform .62s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;overflow-y:auto;padding:26px 26px 30px">
+<aside data-panel="1" style="position:fixed;overscroll-behavior:contain;top:{{ vp.fixTop }};right:{{ vp.fixInset }};bottom:{{ vp.fixTop }};width:{{ vp.panelW }};min-width:{{ vp.panelMinW }};max-width:100vw;z-index:89;background:#0C1011;border-left:1px solid #22272A;box-shadow:-30px 0 70px rgba(0,0,0,.55);transform:translateX({{ panelX }});transition:transform .62s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;overflow-y:auto;padding:26px 26px 30px">
 
   <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:0 0 6px">
 
@@ -850,7 +920,7 @@
 
             <sc-if value="{{ pg.empty }}">
 
-              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#5F6669">Sin imágenes</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#7C8285">Sin imágenes</div>
 
             </sc-if>
 
@@ -874,6 +944,44 @@
 
   </div>
 
+  <div style="margin:13px 0 0;padding:13px 0 0;border-top:1px solid #1C2123;display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:#7C8285">Presupuesto de fase</span>
+
+    <span style="display:flex;align-items:baseline;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em">
+
+      <span style="color:#9BA1A4">{{ budgetTotal }} h</span>
+
+      <span style="color:{{ budgetColor }}">{{ budgetFree }} h libres</span>
+
+    </span>
+
+  </div>
+
+  <sc-if value="{{ carry }}" hint-placeholder-val="{{ false }}">
+
+    <div style="margin:13px 0 0;padding:13px 0 0;border-top:1px solid #1C2123;display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+
+      <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:#7C8285">Sin consumir · proyecto anterior</span>
+
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.08em;color:#7C8285">{{ carryFrom }}</span>
+
+      </span>
+
+      <span style="display:flex;align-items:baseline;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;flex-shrink:0">
+
+        <span style="color:#9EC48F">{{ carryHours }} h</span>
+
+        <span style="color:#7C8285">{{ carryDays }} días</span>
+
+      </span>
+
+    </div>
+
+  </sc-if>
+
 
 
   <div style="margin:13px 0 0;padding:13px 0 0;border-top:1px solid #1C2123;display:flex;align-items:baseline;justify-content:space-between;gap:12px">
@@ -886,11 +994,11 @@
 
         <input id="entrega-d" type="text" inputmode="numeric" maxLength="2" name="morph-ent-d" autoComplete="off" spellCheck="false" data-form-type="other" value="{{ entD }}" onChange="{{ onEntD }}" onKeyDown="{{ onEntKey }}" placeholder="dd" style="width:26px;background:transparent;border:0;border-bottom:1px solid #2F3639;outline:none;color:#ECEFEF;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;text-align:center;padding:0 0 3px" />
 
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#4E5558">/</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7C8285">/</span>
 
         <input id="entrega-m" type="text" inputmode="numeric" maxLength="2" name="morph-ent-m" autoComplete="off" spellCheck="false" data-form-type="other" value="{{ entM }}" onChange="{{ onEntM }}" onKeyDown="{{ onEntKey }}" placeholder="mm" style="width:26px;background:transparent;border:0;border-bottom:1px solid #2F3639;outline:none;color:#ECEFEF;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;text-align:center;padding:0 0 3px" />
 
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#4E5558">/</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7C8285">/</span>
 
         <input id="entrega-y" type="text" inputmode="numeric" maxLength="4" name="morph-ent-y" autoComplete="off" spellCheck="false" data-form-type="other" value="{{ entY }}" onChange="{{ onEntY }}" onKeyDown="{{ onEntKey }}" placeholder="aaaa" style="width:42px;background:transparent;border:0;border-bottom:1px solid #2F3639;outline:none;color:#ECEFEF;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;text-align:center;padding:0 0 3px" />
 
@@ -910,7 +1018,20 @@
 
   </div>
 
-  <div style="margin:12px 0 0;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#4E5558;line-height:1.7;text-align:center">Cierra la fase actual y abre la siguiente. La escala y el contrato se mantienen.</div>
+  <div style="margin:12px 0 0;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#7C8285;line-height:1.7;text-align:center">Cierra la fase actual y abre la siguiente. La escala y el contrato se mantienen.</div>
+
+
+  <nav aria-label="Información legal" style="display:flex;gap:16px;flex-wrap:wrap;margin:28px 0 0;padding:16px 0 0;border-top:1px solid #1C2123;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase">
+
+    <a href="./Legal.dc.html#aviso-legal" style="color:#9BA1A4">Aviso legal</a>
+
+    <a href="./Legal.dc.html#privacidad" style="color:#9BA1A4">Privacidad</a>
+
+    <a href="./Legal.dc.html#cookies" style="color:#9BA1A4">Cookies</a>
+
+    <a href="./Legal.dc.html#terminos" style="color:#9BA1A4">Términos</a>
+
+  </nav>
 
 </aside>
 
@@ -1126,11 +1247,11 @@
 
 <section data-screen-label="Portada" style="position:relative;height:{{ vp.portH }};min-height:{{ vp.portMinH }};max-width:{{ vp.shellW }};margin:0 auto;display:grid;grid-template-columns:{{ vp.portCols }};grid-template-rows:{{ vp.portRows }};column-gap:{{ vp.portGap }};row-gap:20px;padding:{{ vp.portPad }};border-bottom:1px solid #1E2426;background:#0B0E0F;overflow:hidden">
 
-  <img src="./img/fachada-completa.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;pointer-events:none" />
+  <img src="./img/fachada-completa.jpg" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;pointer-events:none" />
 
   <sc-if value="{{ showBgVideo }}" hint-placeholder-val="{{ false }}">
 
-    <video autoplay loop muted playsinline preload="auto" poster="./img/fachada-completa.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none">
+    <video aria-hidden="true" tabindex="-1" autoplay loop muted playsinline preload="auto" poster="./img/fachada-completa.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none">
 
       <source src="./img/Background.mp4" type="video/mp4" />
 
@@ -1156,7 +1277,7 @@
 
   <div data-reveal="1" style="position:relative;z-index:2;grid-area:{{ vp.areaB }};min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column;opacity:0;transform:translateY(36px);transition:opacity 1.5s cubic-bezier(.16,1,.3,1),transform 1.5s cubic-bezier(.16,1,.3,1)">
 
-    <div data-cover-meta="1" style="flex:0 0 auto;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:16px;margin:0 0 14px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#C2C8CA">
+    <div data-cover-meta="1" style="flex:0 0 auto;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:16px;margin:0 0 30px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#C2C8CA">
 
       <span>Propuesta de visualización</span>
 
@@ -1176,7 +1297,7 @@
 
     </div>
 
-    <div data-cover-grid="1" style="flex:1 1 auto;display:grid;grid-template-columns:{{ vp.coverCols }};grid-auto-rows:{{ vp.gridRows }};gap:{{ vp.coverGap }};align-items:{{ gridAlign }};height:{{ gridBoxH }};min-height:0;margin-top:auto;animation:{{ gridAnim }};transition:height .95s cubic-bezier(.16,1,.3,1);margin-bottom:{{ gridLift }};width:{{ gridW }}">
+    <div data-cover-grid="1" style="flex:1 1 auto;display:grid;grid-template-columns:{{ gridColsV }};grid-auto-rows:{{ gridRowsV }};align-content:start;overflow:visible;gap:{{ vp.coverGap }};align-items:{{ gridAlign }};height:{{ gridBoxH }};min-height:0;margin-top:auto;animation:{{ gridAnim }};transition:height .95s cubic-bezier(.16,1,.3,1);margin-bottom:{{ gridLift }};width:{{ gridW }}">
 
       <sc-for list="{{ tiles }}" as="t" hint-placeholder-count="4">
 
@@ -1319,7 +1440,7 @@
 
               <sc-for list="{{ s.layers }}" as="ly" hint-placeholder-count="4">
 
-                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="{{ ly.img }}" alt="{{ ly.name }}" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ ly.objPos }};opacity:{{ ly.op }};transition:opacity .85s cubic-bezier(.16,1,.3,1);pointer-events:none" />
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="{{ ly.img }}" alt="{{ ly.alt }}" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ ly.objPos }};opacity:{{ ly.op }};transition:opacity .85s cubic-bezier(.16,1,.3,1);pointer-events:none" />
 
               </sc-for>
 
@@ -1419,7 +1540,7 @@
 
         <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#7C8285;margin:0 0 12px">{{ emptyLabel }}</p>
 
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#5F6669;margin:0 0 18px">Horas base — {{ comboLabel }} · {{ baseHoursLabel }}</p>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#7C8285;margin:0 0 18px">Horas base — {{ comboLabel }} · {{ baseHoursLabel }}</p>
 
         <span onClick="{{ toTop }}" style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;border-bottom:1px solid #2F3639;padding-bottom:4px">Volver a los encuadres ↑</span>
 
@@ -1453,9 +1574,9 @@
 
           <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#9BA1A4">Horas base — {{ comboLabel }}</span>
 
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:#5F6669;display:{{ vp.tipoDisp }}">Base</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:#7C8285;display:{{ vp.tipoDisp }}">Base</span>
 
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#5F6669;text-align:right">—</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7C8285;text-align:right">—</span>
 
           <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#9BA1A4;text-align:right">{{ baseHoursLabel }}</span>
 
@@ -1515,7 +1636,7 @@
 
                 <div style="display:flex;align-items:baseline;gap:10px">
 
-                  <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.14em;color:#5F6669">{{ pi.n }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.14em;color:#7C8285">{{ pi.n }}</span>
 
                   <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#C2C8CA">{{ pi.name }}</span>
 
@@ -1531,7 +1652,15 @@
 
 
 
-        <div style="display:grid;grid-template-columns:{{ vp.actCols }};gap:10px;margin:32px 0 0">
+        <label style="display:flex;align-items:flex-start;gap:10px;margin:28px 0 0;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.06em;line-height:1.6;color:#9BA1A4">
+
+          <input type="checkbox" checked="{{ sendConsent }}" onChange="{{ toggleConsent }}" style="margin:2px 0 0;accent-color:#ECEFEF;width:14px;height:14px;flex-shrink:0;outline:{{ consentOutline }}" />
+
+          <span>He leído la <a href="./Legal.dc.html#privacidad" target="_blank" rel="noopener" style="color:#ECEFEF;text-decoration:underline">política de privacidad</a> y acepto que «Enviar selección» transmita el código y nombre del proyecto y el listado elegido a Morph a través de FormSubmit.</span>
+
+        </label>
+
+        <div style="display:grid;grid-template-columns:{{ vp.actCols }};gap:10px;margin:18px 0 0">
 
           <span onClick="{{ finalizarProceso }}" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;background:{{ procesoBg }};color:#090B0C;border:1px solid {{ procesoBg }};padding:0 12px;min-height:52px;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;transition:transform .4s cubic-bezier(.16,1,.3,1),background .4s" style-hover="transform:translateX(5px)">{{ procesoLabel }}</span>
 
@@ -1543,7 +1672,7 @@
 
         </div>
 
-        <div style="margin:18px 0 0;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#5F6669">Se envía directamente a cgiraldo@Morph.es</div>
+        <div style="margin:18px 0 0;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#7C8285">Se envía directamente a cgiraldo@Morph.es</div>
 
       </div>
 
@@ -1597,6 +1726,35 @@
     <text x="200" y="222" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="64" font-weight="300" letter-spacing="6" fill="#ECEFEF">M</text>
   </svg>
 </template>
+
+<sc-if value="{{ showLegalFoot }}" hint-placeholder-val="{{ false }}">
+
+  <nav aria-label="Información legal" style="position:fixed;left:0;right:0;bottom:14px;z-index:111;display:flex;justify-content:center;gap:22px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.16em;text-transform:uppercase">
+
+    <a href="./Legal.dc.html#aviso-legal" style="color:#9BA1A4">Aviso legal</a>
+
+    <a href="./Legal.dc.html#privacidad" style="color:#9BA1A4">Privacidad</a>
+
+    <a href="./Legal.dc.html#cookies" style="color:#9BA1A4">Cookies</a>
+
+    <a href="./Legal.dc.html#terminos" style="color:#9BA1A4">Términos</a>
+
+  </nav>
+
+</sc-if>
+
+<sc-if value="{{ showNotice }}" hint-placeholder-val="{{ false }}">
+
+  <div role="region" aria-label="Aviso de almacenamiento" style="position:fixed;left:50%;bottom:44px;transform:translateX(-50%);z-index:130;width:min(560px,calc(100vw - 32px));background:#0C1011;border:1px solid #2F3639;padding:18px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;box-shadow:0 20px 50px rgba(0,0,0,.5)">
+
+    <p style="flex:1 1 260px;margin:0;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.04em;line-height:1.7;color:#C2C8CA">Este sitio sólo guarda en tu navegador los datos técnicos necesarios para recordar tus proyectos. No usamos cookies de análisis ni de publicidad. <a href="./Legal.dc.html#cookies" style="color:#ECEFEF;text-decoration:underline">Política de cookies</a></p>
+
+    <span role="button" tabindex="0" onClick="{{ ackNotice }}" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;background:#E6E9E9;color:#090B0C;padding:12px 18px;cursor:pointer">Entendido</span>
+
+  </div>
+
+</sc-if>
+
 </x-dc>
 
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900},"sendTo":{"editor":"text","default":"cgiraldo@Morph.es","tsType":"string","section":"Envío"},"sendEndpoint":{"editor":"text","default":"","tsType":"string","section":"Envío"},"clientName":{"editor":"text","default":"Cliente","tsType":"string","section":"Envío"},"smoothScroll":{"editor":"boolean","default":true,"tsType":"boolean","section":"Movimiento"},"scrollEase":{"editor":"range","default":0.085,"min":0.03,"max":0.25,"step":0.005,"tsType":"number","section":"Movimiento"},"sectionSnap":{"editor":"boolean","default":true,"tsType":"boolean","section":"Movimiento"},"revealAnimations":{"editor":"boolean","default":true,"tsType":"boolean","section":"Movimiento"}}'>
@@ -1712,13 +1870,21 @@ const SECTIONS = [
     { name: 'Video', img: './img/video-01.jpg', pos: 'center' }
   ]},
 
-{ name: 'TBD 01', kicker: 'Reservado', brief: 'Sección reservada. Pendiente de definir.', tbd: true, views: [] },
+{ name: 'TBD 01', kicker: 'Reservado', brief: 'Sección reservada. Pendiente de definir.', tbd: true, views: [
+    { name: 'TBD 01', img: './img/place.jpg', pos: 'center' }
+  ]},
 
-{ name: 'TBD 02', kicker: 'Reservado', brief: 'Sección reservada. Pendiente de definir.', tbd: true, views: [] },
+{ name: 'TBD 02', kicker: 'Reservado', brief: 'Sección reservada. Pendiente de definir.', tbd: true, views: [
+    { name: 'TBD 02', img: './img/place.jpg', pos: 'center' }
+  ]},
 
-{ name: 'TBD 03', kicker: 'Reservado', brief: 'Sección reservada. Pendiente de definir.', tbd: true, views: [] },
+{ name: 'TBD 03', kicker: 'Reservado', brief: 'Sección reservada. Pendiente de definir.', tbd: true, views: [
+    { name: 'TBD 03', img: './img/place.jpg', pos: 'center' }
+  ]},
 
-{ name: 'TBD 04', kicker: 'Reservado', brief: 'Sección reservada. Pendiente de definir.', tbd: true, views: [] }
+{ name: 'TBD 04', kicker: 'Reservado', brief: 'Sección reservada. Pendiente de definir.', tbd: true, views: [
+    { name: 'TBD 04', img: './img/place.jpg', pos: 'center' }
+  ]}
 ];
 
 // ═══════════════════════════════════════════════════════════════════
@@ -1934,6 +2100,9 @@ const secViewName = (i, v) => { const x = secView(i, v); return x ? x.name : '';
 const EXISTING_PROJECTS = [];
 
 const PROJECTS_KEY = 'morph_projects_v1';
+
+// Aviso informativo de almacenamiento local (una sola vez)
+const NOTICE_KEY = 'morph_storage_notice_v1';
 
 
 
@@ -2416,6 +2585,32 @@ const VIZ_ALLOWED_BY_PHASE = {
 
 // ═══════════════════════════════════════════════════════════════════
 
+// ═════════════════════════════════════════════════════════════════
+//  PRESUPUESTO DE HORAS POR FASE
+//  Horas asignadas a cada fase. Lo que una fase no consume se muestra
+//  como disponible en el panel de detalles del proyecto siguiente.
+//  No modifica el total de horas; sólo informa.
+// ═════════════════════════════════════════════════════════════════
+
+const HOURS_BUDGET_PER_PHASE = {
+
+  viabilidad: 80,
+
+  anteproyecto: 120,
+
+  basico: 160,
+
+  ejecucion: 240,
+
+  comercializacion: 200
+
+};
+
+// Jornada de referencia para expresar horas en días (8 h, lunes a viernes)
+const WORKDAY_HOURS = 8;
+
+
+
 const HOURS_PER_PHASE = {
 
   viabilidad: 40,
@@ -2845,19 +3040,16 @@ class Component extends DCLogic {
   // Mide una celda ya pintada y guarda su tamaño exacto para el crecimiento 2×2
   measureCellPx() {
 
-    const t = this.nodeList('[data-tile-slot]')
-
-      .find(el => parseInt(el.getAttribute('data-tile-slot'), 10) < 1000);
+    // El ancho de columna es el mismo para packs y secciones
+    const t = this.nodeList('[data-tile-slot]')[0];
 
     if (!t) return;
 
-    const b = t.getBoundingClientRect();
-
-    const w = Math.round(b.width), h = Math.round(b.height);
+    const w = t.offsetWidth, h = t.offsetHeight;
 
     if (!w || !h) return;
 
-    if (w !== this.state.cellW || h !== this.state.cellH) this.setState({ cellW: w, cellH: h });
+    if (w !== this.state.cellW) this.setState({ cellW: w, cellH: w });
 
   }
 
@@ -2881,7 +3073,7 @@ class Component extends DCLogic {
 
       - tail.getBoundingClientRect().height - parseFloat(cs.rowGap || 20)
 
-      - meta.getBoundingClientRect().height - 14;
+      - meta.getBoundingClientRect().height - (parseFloat(getComputedStyle(meta).marginBottom) || 14);
 
     const grid = document.querySelector('[data-cover-grid]');
 
@@ -3175,6 +3367,47 @@ class Component extends DCLogic {
 
   componentDidMount() {
 
+    if (!STORE.get(NOTICE_KEY)) this.setState({ showNotice: true });
+
+    // Bloqueo de la página mientras el panel está abierto: la rueda y las
+    // teclas sólo actúan dentro del propio panel.
+    const inPanel = t => !!(t && t.closest && t.closest('[data-panel="1"]'));
+
+    this.onPanelWheel = e => {
+
+      if (this.state.panelOpen && !inPanel(e.target)) e.preventDefault();
+
+    };
+
+    this.onPanelKeys = e => {
+
+      if (!this.state.panelOpen) return;
+
+      const tag = e.target && e.target.tagName;
+
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+      if (['PageDown', 'PageUp', 'ArrowDown', 'ArrowUp', ' ', 'Home', 'End'].indexOf(e.key) !== -1 && !inPanel(e.target)) e.preventDefault();
+
+    };
+
+    window.addEventListener('wheel', this.onPanelWheel, { passive: false });
+
+    window.addEventListener('touchmove', this.onPanelWheel, { passive: false });
+
+    window.addEventListener('keydown', this.onPanelKeys);
+
+    // Cualquier imagen que no exista pasa a la de reserva en vez de quedar negra
+    this.onImgError = e => {
+
+      const t = e.target;
+
+      if (t && t.tagName === 'IMG' && t.src && t.src.indexOf('place.jpg') === -1 && t.src.indexOf('data:') !== 0) t.src = PLACEHOLDER_IMG;
+
+    };
+
+    window.addEventListener('error', this.onImgError, true);
+
     this.preload();
 
     this.loadProjects();
@@ -3216,6 +3449,9 @@ class Component extends DCLogic {
       this.mX = e.clientX / z;
 
       this.mY = e.clientY / z;
+
+      // Con el panel de detalles abierto la retícula de debajo no reacciona
+      if (this.state.panelOpen) return;
 
       // Solo importa sobre la portada; fuera de ella no medimos nada
       if ((window.scrollY || 0) > window.innerHeight) return;
@@ -3323,9 +3559,11 @@ class Component extends DCLogic {
 
 
 
-  componentDidUpdate() {
+  componentDidUpdate(pp, ps) {
 
     this.invalidateNodes();
+
+    if (ps && (ps.stage !== this.state.stage || ps.adicionales !== this.state.adicionales || ps.selectedViz !== this.state.selectedViz || ps.viewMode !== this.state.viewMode)) this.remeasureCellSoon();
 
     this._slotRects = null;
 
@@ -3381,7 +3619,29 @@ class Component extends DCLogic {
 
 
 
+  remeasureCellSoon() {
+
+    clearTimeout(this._cellT1); clearTimeout(this._cellT2);
+
+    this._cellT1 = setTimeout(() => this.measureCellPx(), 60);
+
+    this._cellT2 = setTimeout(() => this.measureCellPx(), 1300);
+
+  }
+
+
+
   componentWillUnmount() {
+
+    clearTimeout(this._cellT1); clearTimeout(this._cellT2);
+
+    window.removeEventListener('wheel', this.onPanelWheel);
+
+    window.removeEventListener('touchmove', this.onPanelWheel);
+
+    window.removeEventListener('keydown', this.onPanelKeys);
+
+    window.removeEventListener('error', this.onImgError, true);
 
     this.stopTileCycle();
 
@@ -3758,6 +4018,7 @@ class Component extends DCLogic {
       layers: ready ? views.map((v, k) => ({
         img: v.img,
         name: v.name,
+        alt: sec.name + ' — ' + v.name + '. ' + renderDesc(v.name, ''),
         objPos: mob ? mobileImgPos(v.img, v.pos) : (v.pos || 'center'),
         op: k === vi ? 1 : 0
       })) : [],
@@ -3925,6 +4186,10 @@ class Component extends DCLogic {
       donePhases: st.donePhases,
 
       history: st.history,
+
+      finishedAt: st.finishedAt || null,
+
+      finishedISO: st.finishedISO || null,
 
       sel: st.sel,
 
@@ -4106,6 +4371,12 @@ class Component extends DCLogic {
 
       processDone: false,
 
+      finishedAt: null,
+
+      finishedISO: null,
+
+      hoverSeg: null,
+
       hoverOpt: null
 
     });
@@ -4125,6 +4396,34 @@ class Component extends DCLogic {
     if (!snap || !snap.phase) {
 
       this.setState({ project: { code: code, name: name }, stage: 'phase', hoverOpt: null });
+
+      return;
+
+    }
+
+    if (snap.finishedAt) {
+
+      this.setState({
+
+        project: { code: snap.code, name: snap.name },
+
+        contract: 'curso',
+
+        history: snap.history || [],
+
+        donePhases: snap.donePhases || [],
+
+        finishedAt: snap.finishedAt,
+
+        finishedISO: snap.finishedISO || null,
+
+        hoverSeg: null,
+
+        stage: 'done',
+
+        hoverOpt: null
+
+      });
 
       return;
 
@@ -4582,6 +4881,150 @@ class Component extends DCLogic {
 
 
 
+  // Segmentos del anillo: una porción por fase cerrada, con hueco entre ellas
+  donutData() {
+
+    const st = this.state;
+
+    const hist = (st.history || []).filter(h => h.hours > 0);
+
+    const total = hist.reduce((a, h) => a + h.hours, 0);
+
+    const INK = ['#ECEFEF', '#B4BABC', '#80878A', '#565D60', '#383E41'];
+
+    const cx = 100, cy = 100, R = 94, r = 62, pad = hist.length > 1 ? 0.035 : 0;
+
+    const pt = (rad, a) => [cx + rad * Math.sin(a), cy - rad * Math.cos(a)];
+
+    const arc = (a0, a1) => {
+
+      const big = a1 - a0 > Math.PI ? 1 : 0;
+
+      const o0 = pt(R, a0), o1 = pt(R, a1), i1 = pt(r, a1), i0 = pt(r, a0);
+
+      return 'M' + o0.join(' ') + 'A' + R + ' ' + R + ' 0 ' + big + ' 1 ' + o1.join(' ') +
+
+        'L' + i1.join(' ') + 'A' + r + ' ' + r + ' 0 ' + big + ' 0 ' + i0.join(' ') + 'Z';
+
+    };
+
+    let acc = 0;
+
+    const on = st.hoverSeg;
+
+    const segs = hist.map((h, i) => {
+
+      const share = total ? h.hours / total : 0;
+
+      const a0 = acc * Math.PI * 2 + pad / 2;
+
+      acc += share;
+
+      let a1 = acc * Math.PI * 2 - pad / 2;
+
+      // Un único segmento: se dibuja como dos mitades para cerrar el anillo
+      const d = share >= 0.999 ? arc(0, Math.PI) + arc(Math.PI, Math.PI * 2 - 0.0001) : arc(a0, Math.max(a1, a0 + 0.01));
+
+      const color = INK[i % INK.length];
+
+      const hov = on === i;
+
+      const viz = VIZ[h.viz] ? VIZ[h.viz].label : '—';
+
+      const details = [
+
+        ['Horas', h.hours + ' h'],
+
+        ['Del total', Math.round(share * 100) + ' %'],
+
+        h.packName ? ['Paquete', h.packName] : ['Imágenes nuevas', String((h.nuevas || []).length)],
+
+        ['Programa', viz],
+
+        ['Entrega prevista', h.entrega || '—'],
+
+        ['Finalizada', h.doneAt || h.done || '—']
+
+      ].map(x => ({ k: x[0], v: x[1] }));
+
+      return {
+
+        d: d,
+
+        color: color,
+
+        tf: hov ? 'scale(1.07)' : 'scale(1)',
+
+        op: on == null || hov ? 1 : 0.28,
+
+        label: h.phaseLabel,
+
+        hours: h.hours,
+
+        pct: Math.round(share * 100) + '%',
+
+        n: ('0' + (i + 1)).slice(-2),
+
+        open: hov,
+
+        details: details,
+
+        rowOp: on == null || hov ? 1 : 0.4,
+
+        dotScale: hov ? 'scale(1.6)' : 'scale(1)',
+
+        enter: () => this.setState({ hoverSeg: i }),
+
+        leave: () => this.setState({ hoverSeg: null })
+
+      };
+
+    });
+
+    return { segs: segs, total: total };
+
+  }
+
+
+
+  // Horas sin consumir del último proyecto finalizado (distinto del actual)
+  carryOver() {
+
+    const st = this.state;
+
+    const cur = st.project ? st.project.code : null;
+
+    const prev = (st.savedProjects || [])
+
+      .filter(p => p.finishedISO && p.code !== cur)
+
+      .sort((a, b) => (a.finishedISO < b.finishedISO ? 1 : -1))[0];
+
+    if (!prev) return null;
+
+    const free = (prev.history || []).reduce((a, h) =>
+
+      a + Math.max(0, (HOURS_BUDGET_PER_PHASE[h.phase] || 0) - (h.hours || 0)), 0);
+
+    return { code: prev.code + ' ' + prev.name, hours: free, at: prev.finishedAt || '' };
+
+  }
+
+
+
+  // dd/mm/aaaa · hh:mm
+  nowStamp() {
+
+    const d = new Date();
+
+    const p = n => ('0' + n).slice(-2);
+
+    return p(d.getDate()) + '/' + p(d.getMonth() + 1) + '/' + d.getFullYear() + ' · ' + p(d.getHours()) + ':' + p(d.getMinutes());
+
+  }
+
+
+
   doFinalizarFase() {
 
     const st = this.state;
@@ -4624,7 +5067,9 @@ class Component extends DCLogic {
 
       entrega: this.entStr((st.entrega || {})[st.selectedPhase]),
 
-      done: this.today()
+      done: this.today(),
+
+      doneAt: this.nowStamp()
 
     };
 
@@ -4653,6 +5098,10 @@ class Component extends DCLogic {
       skipScale: !isLast,
 
       stage: isLast ? 'done' : 'phase',
+
+      finishedAt: isLast ? entry.doneAt : s.finishedAt || null,
+
+      finishedISO: isLast ? new Date().toISOString() : s.finishedISO || null,
 
       hoverOpt: null
 
@@ -4789,6 +5238,8 @@ class Component extends DCLogic {
         const t = e.target, tag = t && t.tagName;
 
         if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+
+        if (this.state.panelOpen) return;
 
         const step = { PageDown: 0.85, PageUp: -0.85, ArrowDown: 0.12, ArrowUp: -0.12, ' ': 0.85 }[e.key];
 
@@ -5618,6 +6069,10 @@ class Component extends DCLogic {
 
     const stage = st.stage;
 
+    const donut = this.donutData();
+
+    const carry = this.carryOver();
+
     let stepKicker = '', stepTitle = '', stepDesc = '', stepOptions = [], stepIndexLabel = '', stepHint = '';
 
 
@@ -5946,6 +6401,8 @@ class Component extends DCLogic {
 
             name: v,
 
+            alt: p.name + ' — ' + v + '. ' + renderDesc(v, ''),
+
             objPos: mobileView ? mobileImgPos(getPackViewImage(i, v), getPackViewPos(i, v)) : getPackViewPos(i, v),
 
             op: k === vi ? 1 : 0
@@ -6164,16 +6621,18 @@ class Component extends DCLogic {
     // así que la escala se deduce de la celda medida y del hueco real.
     const cellPx = st.cellW || parseFloat(st.gridCell) || 0;
 
-    const cellPxY = st.cellH || cellPx;
+
 
     const gapPx = parseFloat(st.gridGap) || parseFloat(vpv.coverGap) || 12;
 
     const bigS = cellPx ? (2 * cellPx + gapPx) / cellPx : 2.07;
 
     // Vertical por separado: la fila puede no ser cuadrada
-    const bigSY = cellPxY ? (2 * cellPxY + gapPx) / cellPxY : bigS;
+    // Celda cuadrada → escala uniforme: la imagen no se deforma y el borde
+    // ampliado cae sobre las líneas de la retícula en cualquier tamaño
+    const bigTf = 'scale(' + bigS.toFixed(4) + ')';
 
-    const bigTf = 'scale(' + bigS.toFixed(4) + ',' + bigSY.toFixed(4) + ')';
+    const cellSq = st.cellW ? st.cellW + 'px' : (st.gridCell || '120px');
 
     const bigRadius = (10 / bigS).toFixed(2) + 'px';
 
@@ -6212,7 +6671,7 @@ class Component extends DCLogic {
 
           ar: 'auto',
 
-          h: st.adicionales ? (st.gridCell || '120px') : (st.gridStretched ? (st.gridH || '100%') : (st.gridCell || '120px')),
+          h: st.adicionales ? cellSq : (st.gridStretched ? (st.gridH || '100%') : (st.gridCell || '120px')),
 
           tf: on ? (packBig ? bigTf : 'scale(1.03)') : 'scale(1)',
 
@@ -6291,7 +6750,7 @@ class Component extends DCLogic {
 
             ar: 'auto',
 
-            h: st.gridCell || '120px',
+            h: cellSq,
 
             tf: on ? (big ? bigTf : 'scale(1.06)') : 'scale(1)',
 
@@ -6357,7 +6816,7 @@ class Component extends DCLogic {
 
           img: cover ? cover.img : '',
 
-          hasImg: !!(cover && cover.img && !s.tbd),
+          hasImg: !!(cover && cover.img),
 
           objPos: (cover && cover.pos) || 'center',
 
@@ -6716,6 +7175,31 @@ class Component extends DCLogic {
 
       showBgVideo: this.vpKey() === 'pc',
 
+      showNotice: !!st.showNotice,
+
+      ackNotice: () => { STORE.set(NOTICE_KEY, '1'); this.setState({ showNotice: false }); },
+
+      showLegalFoot: st.stage !== 'app' && !st.introActive,
+
+      donutSegs: donut.segs,
+
+      donutTotal: donut.total,
+
+      donutCenterLabel: st.hoverSeg != null && donut.segs[st.hoverSeg] ? donut.segs[st.hoverSeg].label : 'Horas totales',
+
+      donutCenterVal: st.hoverSeg != null && donut.segs[st.hoverSeg] ? donut.segs[st.hoverSeg].hours : donut.total,
+
+      doneProject: st.project ? st.project.code + ' ' + st.project.name : '',
+
+      doneAt: st.finishedAt || '—',
+
+      // Filas a la altura de su contenido; align-content:end evita que se estiren
+      gridRowsV: (VIEWPORTS[this.vpKey()] || VIEWPORTS.pc).gridRows,
+
+      // En escritorio la columna mide exactamente la celda calculada para el alto
+      // disponible; así la retícula nunca crece hacia arriba sobre «Adicionales».
+      gridColsV: this.vpKey() === 'pc' && st.gridCell ? 'repeat(4, ' + st.gridCell + ')' : (VIEWPORTS[this.vpKey()] || VIEWPORTS.pc).coverCols,
+
       entD: entParts.d,
 
       entM: entParts.m,
@@ -6739,7 +7223,7 @@ class Component extends DCLogic {
 
       },
 
-      openPanel: () => this.setState({ panelOpen: true }),
+      openPanel: () => this.setState({ panelOpen: true, hoverTile: null, hoverDot: null }),
 
       closePanel: () => this.setState({ panelOpen: false }),
 
@@ -6868,6 +7352,22 @@ class Component extends DCLogic {
 
       totalHoursLabel: hoursStr,
 
+      budgetTotal: HOURS_BUDGET_PER_PHASE[st.selectedPhase] || 0,
+
+      budgetFree: Math.max(0, (HOURS_BUDGET_PER_PHASE[st.selectedPhase] || 0) - totalHours),
+
+      budgetOver: totalHours > (HOURS_BUDGET_PER_PHASE[st.selectedPhase] || 0),
+
+      budgetColor: totalHours > (HOURS_BUDGET_PER_PHASE[st.selectedPhase] || 0) ? '#E07A6B' : '#9EC48F',
+
+      carry: !!carry,
+
+      carryHours: carry ? carry.hours : 0,
+
+      carryDays: carry ? (Math.round(carry.hours / WORKDAY_HOURS * 10) / 10) : 0,
+
+      carryFrom: carry ? carry.code : '',
+
       baseHoursLabel: ('00' + baseHours).slice(-3) + ' h',
 
       comboLabel: comboLabel,
@@ -6916,9 +7416,9 @@ class Component extends DCLogic {
 
       curSize: arrowMode ? '112px' : '12px',
 
-      curBg: arrowMode ? 'transparent' : (st.cursorOnLight ? '#0B0E0F' : '#ECEFEF'),
+      curBg: arrowMode ? 'transparent' : (st.cursorOnLight && !st.panelOpen ? '#0B0E0F' : '#ECEFEF'),
 
-      curShadow: arrowMode ? 'none' : (st.cursorOnLight ? '0 0 10px rgba(11,14,15,0.35)' : '0 0 10px rgba(236,239,239,0.5)'),
+      curShadow: arrowMode ? 'none' : (st.cursorOnLight && !st.panelOpen ? '0 0 10px rgba(11,14,15,0.35)' : '0 0 10px rgba(236,239,239,0.5)'),
 
       curArrowRot: st.arrowSide === 'l' ? 'rotate(180deg)' : 'rotate(0deg)',
 
@@ -6994,6 +7494,12 @@ class Component extends DCLogic {
 
       sendState: st.sendState || 'idle',
 
+      sendConsent: !!st.sendConsent,
+
+      toggleConsent: e => this.setState({ sendConsent: e.target.checked }),
+
+      consentOutline: st.consentNudge ? '2px solid #E07A6B' : 'none',
+
       sendLabel: { idle: 'Enviar selección ↗', sending: 'Enviando…', sent: 'Enviado ✓', error: 'Reintentar envío' }[st.sendState || 'idle'],
 
       sendBg: st.sendState === 'sent' ? '#9EC48F' : '#E6E9E9',
@@ -7028,6 +7534,9 @@ class Component extends DCLogic {
 
     if (this.state.sendState === 'sending') return;
 
+    // Consentimiento explícito antes de enviar datos a un tercero (FormSubmit)
+    if (!this.state.sendConsent) { this.setState({ consentNudge: true }); setTimeout(() => this.setState({ consentNudge: false }), 900); this.flash('Acepta la política de privacidad para enviar'); return; }
+
     const to = this.props.sendTo || 'cgiraldo@Morph.es';
 
     const endpoint = this.props.sendEndpoint || 'https://formsubmit.co/ajax/' + to;
@@ -7044,9 +7553,9 @@ class Component extends DCLogic {
 
       _subject: 'Selección de renders — Morph',
 
-      to: to,
+      _captcha: 'false',
 
-      cliente: this.props.clientName || 'Cliente',
+      _template: 'table',
 
       proyecto: this.state.project ? this.state.project.code + ' ' + this.state.project.name : 'Nuevo encargo',
 
