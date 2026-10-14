@@ -94,21 +94,34 @@ input::placeholder{color:#5C6266;}
     </div>
   </section>
 
-  <section id="servicios" data-snap="" data-svc="" data-screen-label="Servicios" style="position:relative;z-index:1;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:96px clamp(18px,3vw,44px) 40px">
-    <div id="servicios-lista" style="flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:stretch">
-      <div style="transform:translate3d(0,{{ svB.0.y }},0);opacity:{{ svB.0.o }};transition:{{ svB.0.t }};position:relative;overflow:hidden;background:#0B0E10;min-height:0">
-        <sc-for list="{{ media }}" as="md" hint-placeholder-count="1">
-          <div style="position:absolute;inset:0;opacity:{{ md.op }};z-index:{{ md.z }};transform:scale({{ md.sc }});transition:opacity 1s ease, transform 1.4s cubic-bezier(.16,1,.3,1)">{{ md.el }}</div>
-        </sc-for>
-        <div style="position:absolute;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:16px 18px;background:linear-gradient(0deg,rgba(5,7,9,0.85),transparent)">
-          {{ capEl }}
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#FFCE10">{{ svNum }}</span>
-        </div>
+  <section id="servicios" data-snap="" data-screen-label="Servicios" style="position:relative;z-index:1;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:96px clamp(18px,3vw,44px) 40px">
+    <div id="servicios-lista" style="flex:1;min-height:0;display:flex;flex-direction:column;gap:clamp(16px,2.8vh,30px)">
+      <div style="transform:translate3d(0,{{ svB.0.y }},0);opacity:{{ svB.0.o }};transition:{{ svB.0.t }};display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+        <h2 style="margin:0;font-stretch:110%;font-weight:800;font-size:clamp(36px,min(5.4vw,9vh),88px);line-height:0.9;letter-spacing:-0.035em;text-transform:uppercase">{{ t.svcTitle }}</h2>
+        <p style="margin:0;font-size:14px;line-height:1.6;color:#C9CDCF;max-width:44ch;text-wrap:pretty">{{ t.svcIntro }}</p>
       </div>
-      <div style="transform:translate3d(0,{{ svB.1.y }},0);opacity:{{ svB.1.o }};transition:{{ svB.1.t }};display:flex;flex-direction:column;justify-content:center;min-width:0">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#8A9094;margin:0 0 14px">{{ t.svcTitle }} · {{ chRoman }}</span>
-        {{ chHead }}
-        {{ chRows }}
+      <div style="transform:translate3d(0,{{ svB.1.y }},0);opacity:{{ svB.1.o }};transition:{{ svB.1.t }};display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid rgba(255,255,255,0.14)">
+        <sc-for list="{{ chapters }}" as="ch" hint-placeholder-count="4">
+          <div onClick="{{ ch.pick }}" onMouseEnter="{{ ch.pick }}" style="display:flex;flex-direction:column;gap:6px;padding:14px 14px 14px 0;cursor:pointer;border-top:2px solid {{ ch.line }};margin:-1px 0 0;transition:border-color .4s">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;color:{{ ch.numColor }};transition:color .4s">{{ ch.roman }} · {{ ch.count }}</span>
+            <span style="font-weight:700;font-size:clamp(13px,1.3vw,18px);text-transform:uppercase;letter-spacing:-0.01em;line-height:1.1;color:{{ ch.color }};transition:color .4s">{{ ch.title }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="transform:translate3d(0,{{ svB.2.y }},0);opacity:{{ svB.2.o }};transition:{{ svB.2.t }};flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.3fr);gap:clamp(24px,4vw,64px)">
+        <div style="position:relative;overflow:hidden;background:#0B0E10;min-height:0">
+          <sc-for list="{{ media }}" as="md" hint-placeholder-count="1">
+            <div style="position:absolute;inset:0;opacity:{{ md.op }};z-index:{{ md.z }};transform:scale({{ md.sc }});transition:opacity 1s ease, transform 1.4s cubic-bezier(.16,1,.3,1)">{{ md.el }}</div>
+          </sc-for>
+          <div style="position:absolute;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:16px 18px;background:linear-gradient(0deg,rgba(5,7,9,0.85),transparent)">
+            {{ capEl }}
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#FFCE10">{{ svNum }}</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;justify-content:center;min-width:0">
+          {{ chHead }}
+          {{ chRows }}
+        </div>
       </div>
     </div>
   </section>
@@ -276,8 +289,6 @@ const TX = {
 };
 
 // Servicios = secciones de la parte 2, agrupadas en cuatro capítulos. img: nombre en ./img/ · video: true usa Background.mp4
-// Pasos de Servicios: el primer capítulo empieza solo con el título; los demás entran ya con su primera partida
-const svSteps = () => { const out = []; CHAPTERS.forEach((c, ci) => { if (ci === 0) out.push([0, -1]); c.items.forEach((_, i) => out.push([ci, i])); }); return out; };
 const CHAPTERS = [
   { roman: 'I', es: 'Exterior', en: 'Exterior',
     les: 'El edificio en su sitio: cómo se llega, cómo se ve y cómo se vive por fuera.', len: 'The building on its site: how you arrive, how it looks and how it is lived outside.',
@@ -312,7 +323,6 @@ const CHAPTERS = [
       { es: 'Creaciones', en: 'Creations', img: 'place', des: 'Mobiliario a medida, impresión 3D y estudios de materialidad.', den: 'Custom furniture, 3D printing and material studies.' }
     ] }
 ];
-const SV_CYCLE = 2800;
 const PHASES = [
   { num: '01', es: 'Estudio de Viabilidad', en: 'Feasibility', pack: true, des: 'Definición inicial de volúmenes y encuadre general del conjunto.', den: 'Initial massing and an overall view of the scheme.' },
   { num: '02', es: 'Anteproyecto', en: 'Schematic design', pack: true, des: 'Primera propuesta formal: volumetría resuelta y materialidad orientativa.', den: 'First formal proposal: resolved massing and indicative materials.' },
@@ -345,15 +355,13 @@ const SNAP_MS = 950;
 const SNAP_COOLDOWN = 420;
 // Duración del cambio Proceso → Packs y de la capa de Contacto (ms)
 const STAGE_MS = 1100;
-// Bloqueo entre pasos de Servicios (ms)
-const SV_STEP_MS = 650;
 // Servicios ↔ Proceso: los bloques suben/bajan escalonados (VT_MS cada uno, VT_GAP entre ellos)
 const VT_MS = 900;
 const VT_GAP = 60;
 const VT_LAG = '14vh';
 
 class Component extends DCLogic {
-  state = { lang: null, loginOpen: false, user: '', pass: '', err: false, shakeN: 0, leaving: false, hover: null, word: 0, wOut: false, vt: null, svStep: 0, stage: 'proc', ctaOn: false, clock: '', introOn: true, introOp: 1 };
+  state = { lang: null, loginOpen: false, user: '', pass: '', err: false, shakeN: 0, leaving: false, hover: null, word: 0, wOut: false, vt: null, chap: 0, svI: 0, stage: 'proc', ctaOn: false, clock: '', introOn: true, introOp: 1 };
   rootRef = React.createRef();
   introRef = React.createRef();
   bgRef = React.createRef();
@@ -429,18 +437,11 @@ class Component extends DCLogic {
       if (st.stage === 'packs') { this.stageTo({ stage: 'proc' }); return; }
       if (dir < 0) { this.vSwap(false, stg); return; }
     }
-    // Servicios: cada gesto revela la siguiente partida; al terminar Movimiento pasa a Proceso
-    const svc = this.rootRef.current && this.rootRef.current.querySelector('[data-svc]');
-    if (svc && Math.abs(svc.getBoundingClientRect().top) < 8) {
-      const last = svSteps().length - 1;
-      if (dir > 0 && st.svStep < last) { this.stageTo({ svStep: st.svStep + 1 }, SV_STEP_MS); return; }
-      if (dir < 0 && st.svStep > 0) { this.stageTo({ svStep: st.svStep - 1 }, SV_STEP_MS); return; }
-    }
     // Sección más alta que la pantalla: primero recorre su parte oculta
     const root = this.rootRef.current, vh = innerHeight, y = scrollY;
     if (root) {
       const cur = [].slice.call(root.querySelectorAll('[data-snap]')).find(s => { const r = s.getBoundingClientRect(); return r.top <= 4 && r.bottom > 4; });
-      if (cur && !cur.hasAttribute('data-svc') && cur.getAttribute('data-screen-label') !== 'Hero') {
+      if (cur && cur.id !== 'servicios' && cur.getAttribute('data-screen-label') !== 'Hero') {
         const r = cur.getBoundingClientRect(), top = r.top + y, bot = r.bottom + y;
         if (dir > 0 && bot - (y + vh) > 8) { this.scrollToY(Math.min(bot - vh, y + vh * 0.85)); return; }
         if (dir < 0 && y - top > 8) { this.scrollToY(Math.max(top, y - vh * 0.85)); return; }
@@ -450,8 +451,6 @@ class Component extends DCLogic {
     const target = dir > 0 ? pts.find(p => p > cur + 4) : pts.slice().reverse().find(p => p < cur - 4);
     if (target !== undefined && dir > 0 && stg && Math.abs(stg.getBoundingClientRect().top + scrollY - target) < 4 && this.state.stage === 'proc') { this.vSwap(true, stg); return; }
     if (target !== undefined) {
-      const sv = this.rootRef.current && this.rootRef.current.querySelector('[data-svc]');
-      if (sv && dir > 0 && Math.abs(sv.getBoundingClientRect().top + scrollY - target) < 4) this.setState({ svStep: 0 });
       this.scrollToY(target);
     }
   }
@@ -462,7 +461,6 @@ class Component extends DCLogic {
     const svTop = Math.round(svc.getBoundingClientRect().top + scrollY);
     // Subiendo se aterriza en la parte superior de Servicios, mostrando su último paso
     const to = down ? stgTop : svTop;
-    if (!down) this.setState({ svStep: svSteps().length - 1 });
     clearTimeout(this._vt2);
     this.setState({ vt: down ? 'dn0' : 'up0' });
     requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -642,27 +640,37 @@ class Component extends DCLogic {
     const on = (k) => ({ bg: k ? '#FFCE10' : 'transparent', fg: k ? '#090B0D' : '#B4B9BC' });
     const es = on(lang === 'es'), en = on(lang === 'en');
 
-    const steps = svSteps(), stp = steps[Math.min(st.svStep, steps.length - 1)];
-    const ca = stp[0], cur = CHAPTERS[ca], ri = stp[1], si = Math.max(0, ri), it = cur.items[si];
+    const ca = st.chap, cur = CHAPTERS[ca], si = Math.min(st.svI, cur.items.length - 1), it = cur.items[si];
     const mono = "'IBM Plex Mono',monospace";
     const mediaEl = (m, k) => m.video
       ? React.createElement('video', { key: k, src: './img/Background.mp4', autoPlay: true, loop: true, playsInline: true, ref: v => { if (v) { v.muted = true; v.play && v.play().catch(() => {}); } }, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' } })
       : React.createElement('img', { key: k, src: IMG(m.img), alt: m[lang], style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' } });
-    // Todas las imágenes de todos los capítulos; solo la de la última partida revelada es visible
+    // Todas las imágenes de todos los capítulos; solo la de la partida activa es visible
     const media = [];
     CHAPTERS.forEach((c, ci) => c.items.forEach((m, i) => { const act = ci === ca && i === si; media.push({ el: mediaEl(m, 'm' + ci + '-' + i), op: act ? 1 : 0, z: act ? 3 : 1, sc: act ? 1 : 1.06 }); }));
-    const capEl = React.createElement('span', { key: 'cap' + ca + '-' + si + lang, style: { fontFamily: 'Archivo', fontStretch: '110%', fontWeight: 800, fontSize: 'clamp(16px,1.6vw,24px)', textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#F1F1EC', minWidth: 0, animation: 'mlCap .8s cubic-bezier(.16,1,.3,1) both' } }, ri < 0 ? cur[lang] : it[lang]);
+    const capEl = React.createElement('span', { key: 'cap' + ca + '-' + si + lang, style: { fontFamily: 'Archivo', fontStretch: '110%', fontWeight: 800, fontSize: 'clamp(16px,1.6vw,24px)', textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#F1F1EC', minWidth: 0, animation: 'mlCap .8s cubic-bezier(.16,1,.3,1) both' } }, it[lang]);
     const title = cur[lang];
     const chHead = React.createElement('div', { key: 'hd' + ca + lang, style: { display: 'block', overflow: 'hidden', margin: '0 0 clamp(14px,2.4vh,26px)', paddingTop: '0.05em' } },
-      React.createElement('span', { style: { display: 'inline-block', fontFamily: 'Archivo', fontStretch: '110%', fontWeight: 800, fontSize: 'clamp(40px,min(5.4vw,9vh),88px)', lineHeight: 0.92, textTransform: 'uppercase', letterSpacing: '-0.03em', animation: 'mlRise .8s cubic-bezier(.16,1,.3,1) both' } }, title));
-    // Filas: la activa se ilumina, crece su barra y abre su descripción
+      React.createElement('span', { style: { display: 'inline-block', fontFamily: 'Archivo', fontStretch: '110%', fontWeight: 800, fontSize: 'clamp(22px,2.4vw,36px)', lineHeight: 1, textTransform: 'uppercase', letterSpacing: '-0.03em', animation: 'mlRise .8s cubic-bezier(.16,1,.3,1) both' } }, title));
+    // Filas: número + nombre; la activa se marca con líneas amarillas arriba y abajo (el texto no se mueve)
+    const line = (pos, act) => React.createElement('span', { style: { position: 'absolute', left: 0, [pos]: '-1px', height: '1px', width: '100%', background: '#FFCE10', transform: 'scaleX(' + (act ? 1 : 0) + ')', transformOrigin: 'left', transition: 'transform .8s cubic-bezier(.7,0,.2,1)' } });
     const chRows = React.createElement('div', { key: 'rows' + ca + lang, style: { display: 'flex', flexDirection: 'column' } },
-      cur.items.map((m, k) => {
-        const on = k <= ri, now = k === ri;
-        return React.createElement('div', { key: k, style: { display: 'grid', gridTemplateColumns: '34px minmax(0,1fr)', gap: '0 14px', alignItems: 'baseline', padding: 'clamp(7px,1.3vh,13px) 0', opacity: on ? 1 : 0, transform: on ? 'none' : 'translateY(16px)', transition: 'opacity .7s ease, transform .8s cubic-bezier(.16,1,.3,1)' } },
-          React.createElement('span', { style: { fontFamily: mono, fontSize: '10px', letterSpacing: '0.1em', color: now ? '#FFCE10' : '#6E7478', transition: 'color .4s' } }, String(k + 1).padStart(2, '0')),
-          React.createElement('span', { style: { fontWeight: 600, fontSize: 'clamp(16px,1.5vw,22px)', lineHeight: 1.15, color: now ? '#F1F1EC' : '#9BA1A4', transition: 'color .4s', minWidth: 0 } }, m[lang]));
-      }));
+      React.createElement('div', { style: { display: 'flex', flexDirection: 'column', borderTop: '1px solid rgba(255,255,255,0.14)' } },
+        cur.items.map((m, k) => {
+          const act = k === si;
+          return React.createElement('div', { key: k, onMouseEnter: () => { if (this.state.svI !== k) this.setState({ svI: k }); }, style: { position: 'relative', display: 'grid', gridTemplateColumns: '34px minmax(0,1fr) auto', gap: '4px 14px', alignItems: 'baseline', padding: 'clamp(8px,1.3vh,13px) 0', borderBottom: '1px solid rgba(255,255,255,0.09)', cursor: 'default', animation: 'mlRow .6s cubic-bezier(.16,1,.3,1) ' + (120 + k * 50) + 'ms backwards' } },
+            line('top', act), line('bottom', act),
+            React.createElement('span', { style: { fontFamily: mono, fontSize: '10px', letterSpacing: '0.1em', color: act ? '#FFCE10' : '#6E7478', transition: 'color .4s' } }, String(k + 1).padStart(2, '0')),
+            React.createElement('span', { style: { fontWeight: 600, fontSize: 'clamp(15px,1.35vw,19px)', lineHeight: 1.15, color: act ? '#FFCE10' : '#F1F1EC', transition: 'color .4s', minWidth: 0 } }, m[lang]),
+            React.createElement('span', { style: { fontFamily: mono, fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#FFCE10', whiteSpace: 'nowrap' } }, t.ask),
+            React.createElement('span', { style: { gridColumn: '2 / -1', fontSize: '12.5px', lineHeight: 1.5, color: '#AEB3B6', textWrap: 'pretty' } }, lang === 'es' ? m.des : m.den));
+        })));
+    const chapters = CHAPTERS.map((c, i) => {
+      const act = ca === i;
+      return { roman: c.roman, title: c[lang], count: String(c.items.length).padStart(2, '0'),
+        line: act ? '#FFCE10' : 'transparent', color: act ? '#F1F1EC' : '#8A9094', numColor: act ? '#FFCE10' : '#6E7478',
+        pick: () => { if (this.state.chap !== i) this.setState({ chap: i, svI: 0 }); } };
+    });
     // Proceso → Packs: las tarjetas salen hacia la derecha; las de Packs entran desde la izquierda
     const toPacks = st.stage === 'packs';
     const slide = (shown, i, n, comingFromLeft) => ({
@@ -703,14 +711,14 @@ class Component extends DCLogic {
         React.createElement('img', { key: 'i' + st.word, src: IMG(w.img), alt: w[lang], style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'opacity ' + WORD_OUT + 'ms ease-in-out', opacity: st.wOut ? 0 : 1 } })
       ],
       wordName: w[lang], wordIdx: String(st.word + 1).padStart(2, '0'), wordCount: String(WORDS.length).padStart(2, '0'),
-      svB, media, capEl, chHead, chRows, chRoman: cur.roman + ' / ' + ['I','II','III','IV'][CHAPTERS.length - 1],
-      svNum: ri < 0 ? '—' : String(si + 1).padStart(2, '0') + ' / ' + String(cur.items.length).padStart(2, '0'),
+      svB, chapters, media, capEl, chHead, chRows,
+      svNum: String(si + 1).padStart(2, '0') + ' / ' + String(cur.items.length).padStart(2, '0'),
       procHeadX: ph.x, procHeadO: ph.o, procHeadD: ph.d, procHeadY: prV(0, ph.d).y, procHeadT: prV(0, ph.d).t, procPe: toPacks ? 'none' : 'auto',
       packHeadX: pkH.x, packHeadO: pkH.o, packHeadD: pkH.d, packPe: toPacks ? 'auto' : 'none',
       ctaY: st.ctaOn ? '0%' : '102%', ctaTxtY: st.ctaOn ? '0px' : '80px', ctaTxtO: st.ctaOn ? 1 : 0,
 ctaHidden: st.ctaOn ? 'false' : 'true',
       stageVis: st.ctaOn ? 'hidden' : 'visible', stageVisT: st.ctaOn ? 'visibility 0s linear 1.05s' : 'visibility 0s',
-      goSvc: (e) => { e.preventDefault(); this.setState({ svStep: 0 }); this.goTo('#servicios'); },
+      goSvc: (e) => { e.preventDefault(); this.goTo('#servicios'); },
       goTop: (e) => { e.preventDefault(); this.goTo('#top'); },
       goProc: (e) => { e.preventDefault(); this.goStage({ stage: 'proc', ctaOn: false }); },
       goPacks: (e) => { e.preventDefault(); this.goStage({ stage: 'packs', ctaOn: false }); },
